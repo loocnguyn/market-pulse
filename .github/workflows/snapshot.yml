@@ -1,0 +1,59 @@
+name: snapshot
+
+on:
+  schedule:
+    # Every 3 hours at minute 17 (UTC). Some runs are skipped at random below.
+    - cron: "17 */3 * * *"
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+concurrency:
+  group: snapshot
+  cancel-in-progress: false
+
+jobs:
+  snapshot:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    steps:
+      - name: Random skip / delay
+        id: gate
+        run: |
+          if [ "${{ github.event_name }}" = "schedule" ]; then
+            if [ $((RANDOM % 100)) -lt 35 ]; then
+              echo "Skipping this run"
+              echo "skip=true" >> "$GITHUB_OUTPUT"
+              exit 0
+            fi
+            delay=$((RANDOM % 1200))
+            echo "Sleeping ${delay}s"
+            sleep "$delay"
+          fi
+          echo "skip=false" >> "$GITHUB_OUTPUT"
+
+      - uses: actions/checkout@v5
+        if: steps.gate.outputs.skip != 'true'
+
+      - name: Take snapshot
+        if: steps.gate.outputs.skip != 'true'
+        env:
+          COMMIT_MSG_FILE: ${{ runner.temp }}/commit-msg.txt
+        run: python3 scripts/snapshot.py
+
+      - name: Commit
+        if: steps.gate.outputs.skip != 'true'
+        env:
+          COMMIT_MSG_FILE: ${{ runner.temp }}/commit-msg.txt
+        run: |
+          git config user.name "loocnguyn"
+          git config user.email "145242965+loocnguyn@users.noreply.github.com"
+          git add data README.md
+          if git diff --cached --quiet; then
+            echo "Nothing to commit"
+            exit 0
+          fi
+          git commit -F "$COMMIT_MSG_FILE"
+          git pull --rebase
+          git push
