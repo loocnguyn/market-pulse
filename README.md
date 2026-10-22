@@ -7,15 +7,15 @@ Cứ khoảng 3 tiếng, workflow lấy giá BTC, ETH, SOL từ CoinGecko và t�
 ## Mới nhất
 
 <!-- pulse:start -->
-_Cập nhật lần cuối: 22/10/2026 04:44 (giờ VN) · 7 lần ghi_
+_Cập nhật lần cuối: 22/10/2026 11:49 (giờ VN) · 8 lần ghi_
 
 | Đồng | Giá | 24h | Gần đây |
 |---|---:|---:|---|
-| BTC | $84,772 | +2.38% | `▂▁▄▃▅▇█` |
-| ETH | $2,499 | +2.01% | `▂▁▄▄▆█▇` |
-| SOL | $108.23 | +1.61% | `▃▁▅▄▆██` |
+| BTC | $82,785 | +0.10% | `▂▁▄▃▅▇█▄` |
+| ETH | $2,441 | +0.02% | `▂▁▄▄▆█▇▄` |
+| SOL | $105.32 | -0.37% | `▃▁▅▄▆██▃` |
 
-1 USD ≈ **25,846 VND**
+1 USD ≈ **25,847 VND**
 <!-- pulse:end -->
 
 ## Chạy ở máy
